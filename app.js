@@ -102,11 +102,87 @@ function blankPageOverlay(page){
 }
 
 function journal(){
- const page=journalPages[journalPage];
- const tap=page.key==='cover'?`<button class="journal-tap" aria-label="Open Explorer's Journal" onclick="openJournalKey('guide')"></button><div class="journal-hint">Tap anywhere to open</div>`:'';
- const overlay=page.key==='contents'?tocOverlay():blankPageOverlay(page);
- const pageMedia=`<div class="journal-page-canvas ${page.kind}"><img src="${page.image}" alt="${page.label}">${tap}${overlay}</div>`;
- return `<section class="journal-fullscreen"><div class="journal-topbar"><strong>${page.label}</strong><div class="journal-top-actions">${page.key==='cover'?'':`<button onclick="openUnlockSticker()">Unlock Sticker</button><button onclick="journalContents()">Contents</button><button onclick="journalCover()">Cover</button>`}</div></div><div class="journal-stage ${page.kind}">${pageMedia}</div>${page.key==='cover'?'':`<div class="journal-controls"><button onclick="journalPrev()" ${journalPage<=1?'disabled':''}>◀ Previous</button><button onclick="journalContents()">Contents</button><button onclick="journalNext()" ${journalPage>=journalPages.length-1?'disabled':''}>Next ▶</button></div>`}</section>`
+ const page = journalPages[journalPage];
+  const isCover = page.key === 'cover';
+  const overlay =
+    page.key === 'contents'
+      ? tocOverlay()
+      : blankPageOverlay(page);
+
+  return `
+    <section class="journal-fullscreen">
+      <div class="journal-topbar">
+        <button type="button" onclick="journalCover()">Cover</button>
+        <span>${page.label}</span>
+        <button type="button" onclick="journalContents()">Contents</button>
+      </div>
+
+      <div class="journal-stage ${page.kind}">
+        <div class="journal-page-canvas ${page.kind}">
+          <img
+            src="${page.image}"
+            alt="${page.label}"
+            draggable="false"
+          >
+
+          ${
+            isCover
+              ? `
+                <button
+                  type="button"
+                  class="journal-tap"
+                  onclick="openJournalKey('guide')"
+                  aria-label="Open journal"
+                ></button>
+                <div class="journal-hint">Tap anywhere to open</div>
+              `
+              : overlay
+          }
+        </div>
+      </div>
+
+      ${
+        isCover
+          ? ''
+          : `
+            <div class="journal-inline-actions">
+              <button
+                type="button"
+                class="secondary"
+                onclick="openUnlockSticker()"
+              >
+                Unlock Sticker
+              </button>
+            </div>
+
+            <div class="journal-controls">
+              <button
+                type="button"
+                onclick="journalPrev()"
+                ${journalPage <= 1 ? 'disabled' : ''}
+              >
+                Previous
+              </button>
+
+              <button
+                type="button"
+                onclick="journalContents()"
+              >
+                Contents
+              </button>
+
+              <button
+                type="button"
+                onclick="journalNext()"
+                ${journalPage >= journalPages.length - 1 ? 'disabled' : ''}
+              >
+                Next
+              </button>
+            </div>
+          `
+      }
+    </section>
+  `;
 }
 function journey(){return `<div class="page-head"><span class="pill">YOUR BLACK DOG STORY</span><h1>Journey</h1><p class="muted">Permanent, seasonal, and one-time badges make every visit part of your collection.</p></div><article class="card limited row"><img src="assets/badges/rainbow-road.svg" style="width:105px"><div><span class="pill">LIMITED TIME</span><h3>Rainbow Road</h3><p>1 of 2 requirements completed</p><div class="progress"><div style="width:50%"></div></div></div></article>${section('Badge library')}<div class="badge-grid">${badgeCatalog.map(b=>`<article class="card badge ${data.user.badges.includes(b.title)?'':'locked'}"><img src="assets/badges/${b.slug}.svg"><h3>${b.title}</h3><p>${b.desc}</p></article>`).join('')}</div>`}
 function profile(){const mates=data.members.filter(m=>data.user.packmates.includes(m.id));return `<section class="profile"><div class="member-avatar">${data.user.initials}</div><h1>${data.user.name}</h1><p class="muted">Pack Member · ${data.user.points} points</p></section><article class="card"><div class="row"><div class="grow"><h3>Packmates</h3><p>Connect using search or a Pack Code.</p></div><button class="primary" onclick="findPeople()">Find people</button></div>${mates.map(m=>`<div class="row" style="padding-top:12px"><div class="member-avatar">${m.initials}</div><div class="grow"><strong>${m.name}</strong><div class="muted">Packmate</div></div></div>`).join('')}</article><button class="card wide" onclick="showLeaderboard('visits')"><h3>Leaderboards →</h3><p>Visits, Passport, and event attendance</p></button><article class="card"><h3>Activity visibility</h3><select onchange="data.user.privacy=this.value;save();toast('Privacy saved')"><option value="public" ${data.user.privacy==='public'?'selected':''}>Everyone</option><option value="friends" ${data.user.privacy==='friends'?'selected':''}>Packmates only</option><option value="private" ${data.user.privacy==='private'?'selected':''}>Private</option></select></article><button class="secondary wide" onclick="localStorage.removeItem('thePackRealV1');location.reload()">Reset demo data</button>`}
