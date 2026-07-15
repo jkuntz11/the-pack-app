@@ -1,0 +1,22 @@
+Asset ID,File,Category,Title,Dimensions,Status,Notes
+HERO-001,assets/heroes/home-hero.webp,Hero,Home Hero,1536 x 768,Approved,User-created master hero
+BADGE-001,assets/badges/first-visit.svg,Badge,First Visit,512 x 512,Complete,Check in once
+BADGE-002,assets/badges/regular.svg,Badge,Regular,512 x 512,Complete,Complete 10 visits
+BADGE-003,assets/badges/road-warrior.svg,Badge,Road Warrior,512 x 512,Complete,Visit both Black Dog locations
+BADGE-004,assets/badges/beer-explorer.svg,Badge,Beer Explorer,512 x 512,Complete,Try every core beer
+BADGE-005,assets/badges/passport-complete.svg,Badge,Passport Complete,512 x 512,Complete,Complete the active beer passport
+BADGE-006,assets/badges/hazy-explorer.svg,Badge,Hazy Explorer,512 x 512,Complete,Try five hazy beers
+BADGE-007,assets/badges/trivia-master.svg,Badge,Trivia Master,512 x 512,Complete,Attend 10 trivia nights
+BADGE-008,assets/badges/music-bingo-king.svg,Badge,Music Bingo King,512 x 512,Complete,Attend 10 music bingo nights
+BADGE-009,assets/badges/live-music-aficionado.svg,Badge,Live Music Aficionado,512 x 512,Complete,Attend 10 live shows
+BADGE-010,assets/badges/cornhole-champion.svg,Badge,Cornhole Champion,512 x 512,Complete,Win a cornhole event
+BADGE-011,assets/badges/pizza-pioneer.svg,Badge,Pizza Pioneer,512 x 512,Complete,Try every signature pizza
+BADGE-012,assets/badges/dog-rescue-hero.svg,Badge,Dog Rescue Hero,512 x 512,Complete,Support a rescue event
+BADGE-013,assets/badges/bring-a-friend.svg,Badge,Bring a Friend,512 x 512,Complete,Check in with a new Packmate
+BADGE-014,assets/badges/state-fair-veteran.svg,Badge,State Fair Veteran,512 x 512,Complete,Check in at the State Fair Taproom
+BADGE-015,assets/badges/rainbow-road.svg,Badge,Rainbow Road,512 x 512,Complete,Complete the limited Rainbow Road quest
+BADGE-016,assets/badges/oktoberfest.svg,Badge,Oktoberfest,512 x 512,Complete,Complete the annual Oktoberfest challenge
+BADGE-017,assets/badges/christmas-vacation.svg,Badge,Christmas Vacation,512 x 512,Complete,Visit the holiday popup
+BADGE-018,assets/badges/anniversary.svg,Badge,Anniversary Pack,512 x 512,Complete,Attend a Black Dog anniversary celebration
+BADGE-019,assets/badges/founding-pack.svg,Badge,Founding Pack,512 x 512,Complete,Join during the pilot season
+BADGE-020,assets/badges/pack-legend.svg,Badge,Pack Legend,512 x 512,Complete,Reach the highest Pack rank
