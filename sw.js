@@ -1,4 +1,4 @@
-const C='the-pack-v1-release-20260715';
+const C='the-pack-v1-1-events-admin-20260715';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
   './assets/heroes/home-hero.webp',
@@ -16,11 +16,13 @@ self.addEventListener('activate',event=>{
 });
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET') return;
+  const url=new URL(event.request.url);
+  if(url.origin!==self.location.origin) return;
   event.respondWith(
     caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{
       if(response && response.status===200 && response.type==='basic'){
         const copy=response.clone();
-        caches.open(C).then(cache=>cache.put(event.request,copy));
+        caches.open(C).then(cache=>cache.put(event.request,copy)).catch(()=>{});
       }
       return response;
     }))

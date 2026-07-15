@@ -102,87 +102,11 @@ function blankPageOverlay(page){
 }
 
 function journal(){
- const page = journalPages[journalPage];
-  const isCover = page.key === 'cover';
-  const overlay =
-    page.key === 'contents'
-      ? tocOverlay()
-      : blankPageOverlay(page);
-
-  return `
-    <section class="journal-fullscreen">
-      <div class="journal-topbar">
-        <button type="button" onclick="journalCover()">Cover</button>
-        <span>${page.label}</span>
-        <button type="button" onclick="journalContents()">Contents</button>
-      </div>
-
-      <div class="journal-stage ${page.kind}">
-        <div class="journal-page-canvas ${page.kind}">
-          <img
-            src="${page.image}"
-            alt="${page.label}"
-            draggable="false"
-          >
-
-          ${
-            isCover
-              ? `
-                <button
-                  type="button"
-                  class="journal-tap"
-                  onclick="openJournalKey('guide')"
-                  aria-label="Open journal"
-                ></button>
-                <div class="journal-hint">Tap anywhere to open</div>
-              `
-              : overlay
-          }
-        </div>
-      </div>
-
-      ${
-        isCover
-          ? ''
-          : `
-            <div class="journal-inline-actions">
-              <button
-                type="button"
-                class="secondary"
-                onclick="openUnlockSticker()"
-              >
-                Unlock Sticker
-              </button>
-            </div>
-
-            <div class="journal-controls">
-              <button
-                type="button"
-                onclick="journalPrev()"
-                ${journalPage <= 1 ? 'disabled' : ''}
-              >
-                Previous
-              </button>
-
-              <button
-                type="button"
-                onclick="journalContents()"
-              >
-                Contents
-              </button>
-
-              <button
-                type="button"
-                onclick="journalNext()"
-                ${journalPage >= journalPages.length - 1 ? 'disabled' : ''}
-              >
-                Next
-              </button>
-            </div>
-          `
-      }
-    </section>
-  `;
+ const page=journalPages[journalPage];
+ const tap=page.key==='cover'?`<button class="journal-tap" aria-label="Open Explorer's Journal" onclick="openJournalKey('guide')"></button><div class="journal-hint">Tap anywhere to open</div>`:'';
+ const overlay=page.key==='contents'?tocOverlay():blankPageOverlay(page);
+ const pageMedia=`<div class="journal-page-canvas ${page.kind}"><img src="${page.image}" alt="${page.label}">${tap}${overlay}</div>`;
+ return `<section class="journal-fullscreen"><div class="journal-topbar"><strong>${page.label}</strong><div class="journal-top-actions">${page.key==='cover'?'':`<button onclick="openUnlockSticker()">Unlock Sticker</button><button onclick="journalContents()">Contents</button><button onclick="journalCover()">Cover</button>`}</div></div><div class="journal-stage ${page.kind}">${pageMedia}</div>${page.key==='cover'?'':`<div class="journal-controls"><button onclick="journalPrev()" ${journalPage<=1?'disabled':''}>◀ Previous</button><button onclick="journalContents()">Contents</button><button onclick="journalNext()" ${journalPage>=journalPages.length-1?'disabled':''}>Next ▶</button></div>`}</section>`
 }
 function journey(){return `<div class="page-head"><span class="pill">YOUR BLACK DOG STORY</span><h1>Journey</h1><p class="muted">Permanent, seasonal, and one-time badges make every visit part of your collection.</p></div><article class="card limited row"><img src="assets/badges/rainbow-road.svg" style="width:105px"><div><span class="pill">LIMITED TIME</span><h3>Rainbow Road</h3><p>1 of 2 requirements completed</p><div class="progress"><div style="width:50%"></div></div></div></article>${section('Badge library')}<div class="badge-grid">${badgeCatalog.map(b=>`<article class="card badge ${data.user.badges.includes(b.title)?'':'locked'}"><img src="assets/badges/${b.slug}.svg"><h3>${b.title}</h3><p>${b.desc}</p></article>`).join('')}</div>`}
 function profile(){const mates=data.members.filter(m=>data.user.packmates.includes(m.id));return `<section class="profile"><div class="member-avatar">${data.user.initials}</div><h1>${data.user.name}</h1><p class="muted">Pack Member · ${data.user.points} points</p></section><article class="card"><div class="row"><div class="grow"><h3>Packmates</h3><p>Connect using search or a Pack Code.</p></div><button class="primary" onclick="findPeople()">Find people</button></div>${mates.map(m=>`<div class="row" style="padding-top:12px"><div class="member-avatar">${m.initials}</div><div class="grow"><strong>${m.name}</strong><div class="muted">Packmate</div></div></div>`).join('')}</article><button class="card wide" onclick="showLeaderboard('visits')"><h3>Leaderboards →</h3><p>Visits, Passport, and event attendance</p></button><article class="card"><h3>Activity visibility</h3><select onchange="data.user.privacy=this.value;save();toast('Privacy saved')"><option value="public" ${data.user.privacy==='public'?'selected':''}>Everyone</option><option value="friends" ${data.user.privacy==='friends'?'selected':''}>Packmates only</option><option value="private" ${data.user.privacy==='private'?'selected':''}>Private</option></select></article><button class="secondary wide" onclick="localStorage.removeItem('thePackRealV1');location.reload()">Reset demo data</button>`}
@@ -190,14 +114,19 @@ function findPeople(){modal(`<div class="dialog-head"><h2>Find Packmates</h2><bu
 function showLeaderboard(metric='visits'){const label={visits:'Visits',beers:'Beer Passport',events:'Event Attendance'}[metric];const rows=[...data.members].sort((a,b)=>b[metric]-a[metric]);modal(`<div class="dialog-head"><h2>Leaderboards</h2><button onclick="closeModal()">×</button></div><div class="quick"><button onclick="closeModal();showLeaderboard('visits')">Visits</button><button onclick="closeModal();showLeaderboard('beers')">Passport</button></div><button class="secondary wide" onclick="closeModal();showLeaderboard('events')">Event Attendance</button><h3>${label}</h3>${rows.map((m,i)=>`<div class="leader ${m.id===1?'me':''}"><strong>#${i+1}</strong><div class="member-avatar">${m.initials}</div><div><strong>${m.name}</strong></div><strong>${m[metric]}</strong></div>`).join('')}`)}
 let pendingUpdateImage='';
 let pendingStickerImage='';
-function admin(){modal(`<div class="dialog-head"><h2>Content Manager</h2><button onclick="closeModal()">×</button></div><div class="admin-tabs"><button class="active" onclick="showAdminPanel('stickers',this)">Journal Stickers</button><button onclick="showAdminPanel('updates',this)">Feed Updates</button></div><div id="adminPanel"></div>`);showAdminPanel('stickers')}
-function showAdminPanel(panel,btn){document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.toggle('active',b===btn));const el=$('#adminPanel');if(!el)return;if(panel==='updates'){el.innerHTML=`<p class="muted">Publish a landing-page update with one thumbnail image.</p><label>Category<input id="aTag" value="UPDATE"></label><label>Headline<input id="aTitle" placeholder="What’s new?"></label><label>Details<textarea id="aBody" placeholder="Add the update details..."></textarea></label><label>Update image<input id="aImage" type="file" accept="image/jpeg,image/png,image/webp" onchange="prepareUpdateImage(event)"></label><div id="aImagePreview" class="upload-preview empty"><span>No image selected</span></div><button class="primary wide" onclick="publishUpdate()">Publish update</button>`;pendingUpdateImage='';return}el.innerHTML=`<p class="muted">Upload a sticker, assign its journal section, and create the staff code used to unlock it. One active code can be shared by bartenders, servers, or event hosts.</p><label>Sticker name<input id="sName" placeholder="Example: Graffiti Road"></label><label>Journal section<select id="sSection">${Object.entries(journalSections).map(([k,v])=>`<option value="${k}">${v.title}</option>`).join('')}</select></label><label>Unlock code<input id="sCode" placeholder="Example: GRAFFITI26" autocapitalize="characters"></label><label>Sticker artwork <span class="muted">(transparent PNG or WEBP recommended)</span><input id="sImage" type="file" accept="image/png,image/webp,image/jpeg" onchange="prepareStickerImage(event)"></label><div id="sImagePreview" class="sticker-upload-preview empty"><span>No sticker selected</span></div><button class="primary wide" onclick="saveStickerAsset()">Add sticker and code</button><hr><div class="section"><h2>Sticker Library</h2><span class="pill">${data.stickers.length} uploaded</span></div>${data.stickers.length?`<div class="admin-sticker-list unlock-admin-list">${data.stickers.map(s=>`<article><img src="${s.image}" alt="${s.name}"><div class="grow"><strong>${s.name}</strong><small>${journalSections[s.section]?.title||s.section}</small><label class="inline-code">Code<input value="${s.code||''}" onchange="updateStickerCode('${s.id}',this.value)"></label><label class="toggle-row"><input type="checkbox" ${s.enabled!==false?'checked':''} onchange="toggleStickerCode('${s.id}',this.checked)"> Active</label></div><button onclick="deleteStickerAsset('${s.id}')">Delete</button></article>`).join('')}</div>`:'<div class="empty-state">No stickers uploaded yet.</div>'}`;pendingStickerImage=''}
+let pendingEventImage='';
+function admin(){modal(`<div class="dialog-head"><h2>Content Manager</h2><button onclick="closeModal()">×</button></div><div class="admin-tabs"><button class="active" onclick="showAdminPanel('stickers',this)">Journal Stickers</button><button onclick="showAdminPanel('events',this)">Events</button><button onclick="showAdminPanel('updates',this)">Feed Updates</button></div><div id="adminPanel"></div>`);showAdminPanel('stickers')}
+function showAdminPanel(panel,btn){document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.toggle('active',b===btn));const el=$('#adminPanel');if(!el)return;if(panel==='events'){el.innerHTML=`<p class="muted">Add events that will appear in the customer Events section.</p><label>Event title<input id="eTitle" placeholder="Example: Trivia Tuesday"></label><label>Date and time<input id="eDate" placeholder="Example: Tuesday · 7 PM"></label><label>Location<select id="eLocation"><option value="Mooresville">Mooresville</option><option value="Fletcher Place">Fletcher Place</option><option value="Both Locations">Both Locations</option></select></label><label>Event details<textarea id="eDetails" placeholder="Theme, performer, prizes, or other details..."></textarea></label><label>Event image<input id="eImage" type="file" accept="image/jpeg,image/png,image/webp" onchange="prepareEventImage(event)"></label><div id="eImagePreview" class="upload-preview empty"><span>No image selected</span></div><button class="primary wide" onclick="saveEvent()">Add event</button><hr><div class="section"><h2>Current Events</h2><span class="pill">${data.events.length} listed</span></div>${data.events.length?`<div class="admin-event-list">${data.events.map(e=>`<article class="card admin-event-row"><img src="${e.image}" alt="${e.title}"><div class="grow"><strong>${e.title}</strong><small>${e.date} · ${e.location}</small><p>${e.extra||''}</p></div><button onclick="deleteEvent(${e.id})">Delete</button></article>`).join('')}</div>`:'<div class="empty-state">No events have been added yet.</div>'}`;pendingEventImage='';return}if(panel==='updates'){el.innerHTML=`<p class="muted">Publish a landing-page update with one thumbnail image.</p><label>Category<input id="aTag" value="UPDATE"></label><label>Headline<input id="aTitle" placeholder="What’s new?"></label><label>Details<textarea id="aBody" placeholder="Add the update details..."></textarea></label><label>Update image<input id="aImage" type="file" accept="image/jpeg,image/png,image/webp" onchange="prepareUpdateImage(event)"></label><div id="aImagePreview" class="upload-preview empty"><span>No image selected</span></div><button class="primary wide" onclick="publishUpdate()">Publish update</button>`;pendingUpdateImage='';return}el.innerHTML=`<p class="muted">Upload a sticker, assign its journal section, and create the staff code used to unlock it. One active code can be shared by bartenders, servers, or event hosts.</p><label>Sticker name<input id="sName" placeholder="Example: Graffiti Road"></label><label>Journal section<select id="sSection">${Object.entries(journalSections).map(([k,v])=>`<option value="${k}">${v.title}</option>`).join('')}</select></label><label>Unlock code<input id="sCode" placeholder="Example: GRAFFITI26" autocapitalize="characters"></label><label>Sticker artwork <span class="muted">(transparent PNG or WEBP recommended)</span><input id="sImage" type="file" accept="image/png,image/webp,image/jpeg" onchange="prepareStickerImage(event)"></label><div id="sImagePreview" class="sticker-upload-preview empty"><span>No sticker selected</span></div><button class="primary wide" onclick="saveStickerAsset()">Add sticker and code</button><hr><div class="section"><h2>Sticker Library</h2><span class="pill">${data.stickers.length} uploaded</span></div>${data.stickers.length?`<div class="admin-sticker-list unlock-admin-list">${data.stickers.map(s=>`<article><img src="${s.image}" alt="${s.name}"><div class="grow"><strong>${s.name}</strong><small>${journalSections[s.section]?.title||s.section}</small><label class="inline-code">Code<input value="${s.code||''}" onchange="updateStickerCode('${s.id}',this.value)"></label><label class="toggle-row"><input type="checkbox" ${s.enabled!==false?'checked':''} onchange="toggleStickerCode('${s.id}',this.checked)"> Active</label></div><button onclick="deleteStickerAsset('${s.id}')">Delete</button></article>`).join('')}</div>`:'<div class="empty-state">No stickers uploaded yet.</div>'}`;pendingStickerImage=''}
 function prepareStickerImage(event){const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return toast('Choose an image file');const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const max=650,scale=Math.min(1,max/Math.max(img.width,img.height));const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);pendingStickerImage=canvas.toDataURL('image/webp',.88);const preview=$('#sImagePreview');preview.classList.remove('empty');preview.innerHTML=`<img src="${pendingStickerImage}" alt="Sticker preview"><button type="button" onclick="clearStickerImage()">Remove</button>`};img.onerror=()=>toast('Could not read that image');img.src=reader.result};reader.readAsDataURL(file)}
 function clearStickerImage(){pendingStickerImage='';const i=$('#sImage');if(i)i.value='';const p=$('#sImagePreview');if(p){p.classList.add('empty');p.innerHTML='<span>No sticker selected</span>'}}
 function saveStickerAsset(){const name=$('#sName')?.value.trim(),section=$('#sSection')?.value,code=normalizeCode($('#sCode')?.value);if(!name||!section||!code||!pendingStickerImage)return toast('Add a name, section, unlock code, and sticker image');if(data.stickers.some(s=>normalizeCode(s.code)===code))return toast('That code is already assigned');const id='sticker-'+Date.now().toString(36);data.stickers.push({id,name,section,image:pendingStickerImage,code,enabled:true});try{save()}catch(e){data.stickers.pop();return toast('Sticker image is too large for this demo')}pendingStickerImage='';showAdminPanel('stickers');render();toast('Sticker added to '+journalSections[section].title)}
 function updateStickerCode(id,value){const code=normalizeCode(value);if(!code)return toast('Code cannot be blank');if(data.stickers.some(s=>s.id!==id&&normalizeCode(s.code)===code))return toast('That code is already assigned');const sticker=data.stickers.find(s=>s.id===id);if(!sticker)return;sticker.code=code;save();toast('Unlock code updated')}
 function toggleStickerCode(id,enabled){const sticker=data.stickers.find(s=>s.id===id);if(!sticker)return;sticker.enabled=enabled;save();toast(enabled?'Code activated':'Code paused')}
 function deleteStickerAsset(id){const s=data.stickers.find(x=>x.id===id);if(!s)return;data.stickers=data.stickers.filter(x=>x.id!==id);delete data.userStickerPlacements[id];save();showAdminPanel('stickers');render();toast('Sticker deleted')}
+function prepareEventImage(event){const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return toast('Choose an image file');const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const targetW=900,targetH=506;const canvas=document.createElement('canvas');canvas.width=targetW;canvas.height=targetH;const ctx=canvas.getContext('2d');const scale=Math.max(targetW/img.width,targetH/img.height);const sw=targetW/scale,sh=targetH/scale;const sx=(img.width-sw)/2,sy=(img.height-sh)/2;ctx.drawImage(img,sx,sy,sw,sh,0,0,targetW,targetH);pendingEventImage=canvas.toDataURL('image/jpeg',.78);const preview=$('#eImagePreview');preview.classList.remove('empty');preview.innerHTML=`<img src="${pendingEventImage}" alt="Selected event image"><button type="button" onclick="clearEventImage()">Remove</button>`};img.onerror=()=>toast('Could not read that image');img.src=reader.result};reader.readAsDataURL(file)}
+function clearEventImage(){pendingEventImage='';const input=$('#eImage');if(input)input.value='';const preview=$('#eImagePreview');if(preview){preview.classList.add('empty');preview.innerHTML='<span>No image selected</span>'}}
+function saveEvent(){const title=$('#eTitle')?.value.trim(),date=$('#eDate')?.value.trim(),location=$('#eLocation')?.value,extra=$('#eDetails')?.value.trim();if(!title||!date||!location)return toast('Add a title, date/time, and location');const nextId=data.events.reduce((max,e)=>Math.max(max,Number(e.id)||0),0)+1;const event={id:nextId,title,date,location,image:pendingEventImage||'assets/events/event-music.svg',friends:[],extra:extra||'More details coming soon.'};data.events.unshift(event);try{save()}catch(e){data.events.shift();return toast('Event image is too large for this demo')}pendingEventImage='';showAdminPanel('events');render();toast('Event added')}
+function deleteEvent(id){data.events=data.events.filter(e=>e.id!==id);data.user.rsvps=data.user.rsvps.filter(eventId=>eventId!==id);save();showAdminPanel('events');render();toast('Event deleted')}
 function prepareUpdateImage(event){const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return toast('Choose an image file');const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const targetW=900,targetH=506;const canvas=document.createElement('canvas');canvas.width=targetW;canvas.height=targetH;const ctx=canvas.getContext('2d');const scale=Math.max(targetW/img.width,targetH/img.height);const sw=targetW/scale,sh=targetH/scale;const sx=(img.width-sw)/2,sy=(img.height-sh)/2;ctx.drawImage(img,sx,sy,sw,sh,0,0,targetW,targetH);pendingUpdateImage=canvas.toDataURL('image/jpeg',.78);const preview=$('#aImagePreview');preview.classList.remove('empty');preview.innerHTML=`<img src="${pendingUpdateImage}" alt="Selected update thumbnail"><button type="button" onclick="clearUpdateImage()">Remove</button>`};img.onerror=()=>toast('Could not read that image');img.src=reader.result};reader.readAsDataURL(file)}
 function clearUpdateImage(){pendingUpdateImage='';const input=$('#aImage');if(input)input.value='';const preview=$('#aImagePreview');preview.classList.add('empty');preview.innerHTML='<span>No image selected</span>'}
 function publishUpdate(){const title=$('#aTitle').value.trim(),body=$('#aBody').value.trim();if(!title||!body)return toast('Add a headline and details');const update={title,body,tag:$('#aTag').value.trim()||'UPDATE',image:pendingUpdateImage||'assets/heroes/home-hero.webp'};data.updates.unshift(update);try{save()}catch(e){data.updates.shift();return toast('Image is too large for this local demo')}pendingUpdateImage='';closeModal();setView('home');toast('Update published with thumbnail')}

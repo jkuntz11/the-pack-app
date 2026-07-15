@@ -121,14 +121,11 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 /* Friends check-in page */
 .friends-summary{display:flex;align-items:center;gap:14px;background:linear-gradient(145deg,#211a0f,#151515);border-color:#5a4522}.friends-summary>strong{font-size:38px;color:var(--gold);min-width:46px;text-align:center}.friends-summary h3{margin:0 0 3px}.location-head{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 9px}.location-head>div{display:flex;align-items:center;gap:8px}.live-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(117,189,131,.12)}.friend-checkin{display:flex;align-items:center;gap:12px}.friend-checkin h3{margin:0 0 3px}.empty-checkins{text-align:center;border-style:dashed}.privacy-note{margin-top:20px}.privacy-note .wide{margin-top:12px}
 
-/* Fix closed journal canvas sizing so the cover image and tap target render. */
-.journal-page-canvas.closed {
-  width: min(82vw, 520px);
-  aspect-ratio: auto;
-}
-
-.journal-page-canvas.closed img {
-  display: block;
-  width: 100% !important;
-  height: auto !important;
-}
+/* Admin events */
+.admin-tabs{grid-template-columns:repeat(3,1fr)}
+.admin-event-list{display:grid;gap:8px}
+.admin-event-row{display:grid;grid-template-columns:76px 1fr auto;align-items:center;gap:10px;margin-bottom:0}
+.admin-event-row img{width:76px;height:64px;object-fit:cover;border-radius:10px}
+.admin-event-row small{display:block;color:var(--muted);margin:4px 0}
+.admin-event-row button{border:1px solid #5f3028;background:#291411;color:#f0b4a8;border-radius:9px;padding:8px}
+@media(max-width:520px){.admin-tabs{grid-template-columns:1fr}.admin-event-row{grid-template-columns:64px 1fr}.admin-event-row img{width:64px;height:58px}.admin-event-row>button{grid-column:2;justify-self:start}}
