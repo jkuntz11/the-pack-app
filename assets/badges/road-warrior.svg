@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+<title id="t">Road Warrior</title><desc id="d">Visit both Black Dog locations</desc>
+<defs><radialGradient id="g" cx="35%" cy="25%"><stop offset="0" stop-color="#fff5cc"/><stop offset=".28" stop-color="#496a81"/><stop offset="1" stop-color="#171717"/></radialGradient><filter id="s"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-opacity=".45"/></filter></defs>
+<circle cx="256" cy="256" r="220" fill="#111" stroke="#e8d7aa" stroke-width="14" filter="url(#s)"/>
+<circle cx="256" cy="256" r="188" fill="url(#g)" stroke="#0b0b0b" stroke-width="10"/>
+<path d="M256 73l23 30 38-7 9 38 36 14-14 36 30 23-23 30 7 38-38 9-14 36-36-14-23 30-30-23-38 7-9-38-36-14 14-36-30-23 23-30-7-38 38-9 14-36 36 14z" fill="none" stroke="#f2e7c9" stroke-opacity=".42" stroke-width="5"/>
+<text x="256" y="249" text-anchor="middle" font-size="92" font-family="Arial, sans-serif" font-weight="900" fill="#fff8e6">↔</text>
+<rect x="101" y="306" width="310" height="80" rx="18" fill="#111" fill-opacity=".9" stroke="#e8d7aa" stroke-width="4"/>
+<text x="256" y="340" text-anchor="middle" font-size="24" font-family="Arial, sans-serif" font-weight="900" fill="#fff8e6">ROAD WARRIOR</text>
+<text x="256" y="369" text-anchor="middle" font-size="16" font-family="Arial, sans-serif" fill="#d9cba7">THE PACK</text>
+</svg>

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "stickersPerPage": 3,
+  "frontMatter": [
+    {"key":"cover","asset":"cover-v2.webp"},
+    {"key":"explorers-guide","asset":"explorers-guide.webp"},
+    {"key":"table-of-contents","asset":"table-of-contents.webp"}
+  ],
+  "chapters": [
+    {"key":"beer","title":"Beer Collection","stickers":21,"pages":7},
+    {"key":"events","title":"Events & Entertainment","stickers":15,"pages":5},
+    {"key":"food","title":"Food & Pizza","stickers":27,"pages":9},
+    {"key":"challenges","title":"Challenges & Achievements","stickers":15,"pages":5},
+    {"key":"meet-shelby","title":"Meet Shelby","status":"coming-soon","pages":0},
+    {"key":"special","title":"Special Collections","stickers":9,"pages":3}
+  ]
+}
