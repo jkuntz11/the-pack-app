@@ -1,4 +1,4 @@
-const C='the-pack-v1-1-events-admin-20260715';
+const C='the-pack-v1-1-events-journal-fix-20260715';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
   './assets/heroes/home-hero.webp',
