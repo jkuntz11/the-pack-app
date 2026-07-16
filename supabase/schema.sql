@@ -18,11 +18,30 @@ create table if not exists public.stickers (
   name text not null,
   section text not null check (section in ('beer','events','food','challenges','special')),
   image_path text not null,
+  unlock_method text not null default 'staff_code' check (unlock_method in ('staff_code','qr_code')),
   unlock_code text not null unique,
   enabled boolean not null default true,
   created_by uuid references auth.users(id),
   created_at timestamptz not null default now()
 );
+
+-- Preserve existing reward rows while bringing older databases onto the V1.2.1 model.
+alter table public.stickers
+add column if not exists unlock_method text not null default 'staff_code';
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'stickers_unlock_method_check'
+      and conrelid = 'public.stickers'::regclass
+  ) then
+    alter table public.stickers
+    add constraint stickers_unlock_method_check
+    check (unlock_method in ('staff_code','qr_code'));
+  end if;
+end;
+$$;
 
 create table if not exists public.user_stickers (
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -113,15 +132,17 @@ create policy "users update own checkins"
 on public.checkins for update to authenticated
 using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
 
--- Atomic sticker redemption. The code remains server-side inside this function result path.
-create or replace function public.redeem_sticker_code(code_input text)
-returns table (sticker_id uuid, sticker_name text, sticker_section text, image_path text)
+-- Atomic reward redemption. Reward IDs remain permanent and separate from the shared unlock code.
+drop function if exists public.redeem_sticker_code(text);
+create function public.redeem_sticker_code(code_input text)
+returns table (sticker_id uuid, sticker_name text, sticker_section text, image_path text, already_collected boolean)
 language plpgsql
 security definer
 set search_path = public
 as $$
 declare
   matched public.stickers;
+  inserted_count integer;
 begin
   select * into matched
   from public.stickers
@@ -136,7 +157,9 @@ begin
   values ((select auth.uid()), matched.id)
   on conflict do nothing;
 
-  return query select matched.id, matched.name, matched.section, matched.image_path;
+  get diagnostics inserted_count = row_count;
+
+  return query select matched.id, matched.name, matched.section, matched.image_path, inserted_count = 0;
 end;
 $$;
 

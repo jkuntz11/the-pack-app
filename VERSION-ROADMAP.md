@@ -1,13 +1,14 @@
 # The Pack Version Roadmap
 
-APP.zip is the canonical master project. All releases must be incremental and tested against the current master project. Do not rebuild or replace the whole app.
+The `main` branch of `jkuntz11/the-pack-app` is the canonical project source. All releases must be incremental and tested against the current main branch. Do not rebuild or replace the whole app.
 
 ## V1.2.1 – Reward Engine & App Icon
-- Reward Engine foundation
-- Reward artwork and unlock methods
-- QR reward generation
-- App icon update
-- Journal and Table of Contents polish
+- Reward Engine foundation — complete
+- Staff Code and QR Code unlocks backed by one reward code — complete
+- Permanent reward IDs and per-user duplicate prevention — complete
+- Admin QR generation and reward duplication — complete
+- App icon update — complete
+- Journal and dynamic Table of Contents totals preserved — complete
 
 ## V1.3 – Admin Redesign
 - Admin dashboard redesign
@@ -24,7 +25,7 @@ APP.zip is the canonical master project. All releases must be incremental and te
 ## V1.5 – Social Features
 - Friend activity
 - Expanded social features
-- QR scanning
+- Expanded in-app camera scanning and scan history
 - Shared check-ins and activity controls
 
 ## V2.0 – Advanced Experiences
