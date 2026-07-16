@@ -1,6 +1,6 @@
-const C='the-pack-v1-2-1-reward-engine-20260716';
+const C='the-pack-v1-2-1-reward-engine-20260716-qr';
 const CORE=[
-  './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
+  './','./index.html','./styles.css','./app.js','./manifest.webmanifest','./assets/vendor/qrcode-generator.js',
   './assets/heroes/home-hero.webp',
   './assets/journal/cover-v2.webp',
   './assets/journal/explorers-guide.webp',
