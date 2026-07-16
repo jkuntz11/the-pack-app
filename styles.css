@@ -43,7 +43,7 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 .toc-row-hotspot:focus-visible{outline:3px solid #e4b65d;background:rgba(228,182,93,.12)}
 .blank-page-ui{display:flex;flex-direction:column;padding:8.5% 9% 7% 13%;color:#3a2414}
 .blank-page-title{display:flex;align-items:end;justify-content:space-between;border-bottom:2px solid rgba(78,46,24,.35);padding-bottom:1.2%;font-family:Georgia,serif;text-transform:uppercase;letter-spacing:.05em}.blank-page-title span{font-weight:900;font-size:clamp(18px,4.4vw,32px)}.blank-page-title strong{font-size:clamp(14px,3.2vw,24px)}
-.blank-sticker-slots{flex:1;display:grid;grid-template-rows:repeat(3,1fr);gap:3.5%;padding:5% 8%}.blank-sticker-slots div{border:2px dashed rgba(96,61,34,.32);border-radius:24px;background:rgba(255,255,255,.08)}
+.blank-sticker-slots{flex:1;display:grid;grid-template-rows:repeat(3,1fr);align-content:center;gap:5.5%;padding:6% 10% 9%;}.blank-sticker-slots div{width:94%;justify-self:center;min-height:0;border:2px dashed rgba(96,61,34,.32);border-radius:24px;background:rgba(255,255,255,.08)}
 .blank-page-footer{text-align:center;font-family:Georgia,serif;font-weight:700;font-size:clamp(12px,2.8vw,20px)}
 @media(max-width:700px){.journal-fullscreen .journal-stage.single img{max-height:calc(100dvh - 126px)}.blank-page-ui{padding:8.5% 8% 7% 13%}.toc-count{right:8%}}
 
@@ -55,15 +55,36 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 .journal-page-canvas.closed{width:min(82vw,520px);max-width:min(82vw,520px);flex:0 0 auto}
 .journal-page-canvas.closed img{width:100%!important;padding:0!important}
 
-/* The printed box and denominator remain in the artwork; only the live numerator is overlaid. */
-.toc-count{right:8.65%;width:13.8%;height:4.4%;background:transparent;box-shadow:none;border:0;padding:0;justify-content:flex-start;gap:0;line-height:1}
-.toc-count strong{width:44%;text-align:right;font-size:clamp(13px,2.8vw,25px);color:#8c2f18}
-.toc-count span{display:none}
+/* The Table of Contents artwork is static; the app renders the complete live count. */
+.toc-count{
+ right:7.1%;
+ width:18.5%;
+ min-height:4.5%;
+ transform:translateY(-50%);
+ border:1px solid rgba(92,50,25,.18);
+ background:rgba(239,215,174,.58);
+ box-shadow:inset 0 0 18px rgba(135,79,34,.07);
+ border-radius:999px;
+ padding:.2% 1.2%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:.45cqw;
+ line-height:1;
+ color:#2a190d;
+ backdrop-filter:blur(.4px);
+}
+.toc-count strong,.toc-count span,.toc-count em{font-family:Georgia,serif;font-style:normal;font-weight:800}
+.toc-count strong{font-size:clamp(14px,3.5cqw,27px);color:#8c2f18}
+.toc-count span{display:inline;font-size:clamp(12px,2.8cqw,22px);color:#5d3a22}
+.toc-count em{font-size:clamp(14px,3.5cqw,27px);color:#2a190d}
+.toc-count.complete{border-color:rgba(76,103,47,.35);background:rgba(220,224,181,.68)}
+.toc-count.complete::after{content:'✓';margin-left:.25cqw;color:#4f6e34;font-size:clamp(10px,2.4cqw,19px);font-weight:900}
 
 @media(max-width:700px){
  .journal-page-canvas,.journal-page-canvas img{max-height:calc(100dvh - 126px)!important}
  .journal-page-canvas.single{height:calc(100dvh - 126px)}
- .toc-count{right:8.65%}
+ .toc-count{right:7.1%}
 }
 
 /* Journal sticker manager */
@@ -129,3 +150,19 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 .admin-event-row small{display:block;color:var(--muted);margin:4px 0}
 .admin-event-row button{border:1px solid #5f3028;background:#291411;color:#f0b4a8;border-radius:9px;padding:8px}
 @media(max-width:520px){.admin-tabs{grid-template-columns:1fr}.admin-event-row{grid-template-columns:64px 1fr}.admin-event-row img{width:64px;height:58px}.admin-event-row>button{grid-column:2;justify-self:start}}
+
+
+/* Reward Engine and mobile admin improvements */
+.dialog:has(.admin-tabs){overflow:hidden;display:flex;flex-direction:column;padding-bottom:0}
+.dialog:has(.admin-tabs) .dialog-head,.dialog:has(.admin-tabs) .admin-tabs{flex:0 0 auto}
+#adminPanel{min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.admin-scroll{overflow-y:auto;overscroll-behavior:contain;padding:0 2px 90px;max-height:calc(88vh - 130px)}
+.admin-sticky-action{position:sticky;bottom:0;z-index:8;margin-top:14px;padding:14px;box-shadow:0 -10px 20px rgba(21,21,21,.95)}
+.sticker-upload-preview{height:160px}
+.admin-tabs{grid-template-columns:repeat(3,1fr)}
+.admin-tabs button{font-size:12px;padding:9px 5px}
+.admin-intro{background:linear-gradient(145deg,#241b10,#17130e);border:1px solid #594321;border-radius:14px;padding:13px;margin:4px 0 14px}.admin-intro h3{margin:8px 0 4px}.admin-intro p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+.reward-method-note{min-height:0;color:#d9bd84;background:#241d13;border-radius:10px;padding:0;margin:8px 0}.reward-method-note:not(:empty){padding:10px}
+.reward-library article{grid-template-columns:62px 1fr auto}.reward-status{display:block;color:#d4b878;font-size:11px;margin-top:4px;text-transform:capitalize}.reward-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.reward-card-actions button{padding:7px 9px;font-size:11px}.danger-button{align-self:start}
+.qr-reward{text-align:center}.qr-reward canvas{max-width:100%;background:white;border-radius:14px;padding:10px;margin:8px auto}.qr-reward p{color:var(--muted);font-size:13px}.qr-reward input{font-size:11px}.reward-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+@media(max-width:520px){.modal{padding:8px}.dialog{max-height:96dvh;border-radius:16px;padding:14px}.admin-scroll{max-height:calc(96dvh - 122px)}.sticker-upload-preview{height:135px}.reward-library article{grid-template-columns:52px 1fr}.reward-library article>.danger-button{grid-column:2;justify-self:start}.admin-tabs button{font-size:10px}}

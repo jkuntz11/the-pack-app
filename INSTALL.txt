@@ -1,0 +1,19 @@
+THE PACK V1.2.1 - DYNAMIC TABLE OF CONTENTS
+
+Replace these files in the existing APP project, preserving the paths:
+
+app.js
+styles.css
+sw.js
+assets/journal/table-of-contents.webp
+
+Do not replace any other project files.
+
+What changed:
+- Replaced the Table of Contents artwork with the new blank-count version.
+- The complete Collected / Total value is now rendered by the app.
+- Total is calculated from active rewards assigned to each journal collection.
+- Collected is calculated from unlocked rewards (with placed stickers supported for legacy data).
+- Disabled, hidden, and Coming Soon rewards are excluded from totals.
+- Count positions and row tap targets were realigned to the new artwork.
+- Service worker cache version was changed so deployed devices receive the new artwork and code.

@@ -1,4 +1,4 @@
-const C='the-pack-v1-1-events-journal-fix-20260715';
+const C='the-pack-v1-2-1-dynamic-toc-20260716';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
   './assets/heroes/home-hero.webp',
@@ -6,7 +6,13 @@ const CORE=[
   './assets/journal/explorers-guide.webp',
   './assets/journal/table-of-contents.webp',
   './assets/journal/master-page.webp',
-  './assets/journal/journal-structure.json'
+  './assets/journal/journal-structure.json',
+  './assets/icons/app-icon-192.png',
+  './assets/icons/app-icon-512.png',
+  './assets/icons/apple-touch-icon.png',
+  './assets/icons/favicon-32.png',
+  './assets/icons/favicon-16.png',
+  './assets/icons/favicon.ico'
 ];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(C).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));
