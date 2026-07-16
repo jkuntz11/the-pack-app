@@ -153,11 +153,13 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 
 
 /* Reward Engine and mobile admin improvements */
-.dialog:has(.admin-tabs){overflow:hidden;display:flex;flex-direction:column;padding-bottom:0}
+.dialog:has(.admin-tabs){height:min(88dvh,760px);max-height:88dvh;overflow:hidden;display:flex;flex-direction:column;padding-bottom:0}
 .dialog:has(.admin-tabs) .dialog-head,.dialog:has(.admin-tabs) .admin-tabs{flex:0 0 auto}
-#adminPanel{min-height:0;overflow:hidden;display:flex;flex-direction:column}
-.admin-scroll{overflow-y:auto;overscroll-behavior:contain;padding:0 2px 90px;max-height:calc(88vh - 130px)}
-.admin-sticky-action{position:static;margin-top:14px;padding:14px}
+#adminPanel{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.admin-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 2px 22px}
+.admin-reward-layout{display:flex;flex:1;min-height:0;overflow:hidden;flex-direction:column}
+.admin-action-footer{flex:0 0 auto;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:10px;background:#151515;border-top:1px solid #5a4522;padding:12px 2px calc(12px + env(safe-area-inset-bottom))}
+.admin-action-footer button{min-height:44px}
 .sticker-upload-preview{height:160px}
 .admin-tabs{grid-template-columns:repeat(3,1fr)}
 .admin-tabs button{font-size:12px;padding:9px 5px}
@@ -165,4 +167,4 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 .reward-method-note{min-height:0;color:#d9bd84;background:#241d13;border-radius:10px;padding:0;margin:8px 0}.reward-method-note:not(:empty){padding:10px}
 .reward-library article{grid-template-columns:62px 1fr auto}.reward-id{display:block;color:#8f8980;font-size:10px;margin-top:4px;overflow-wrap:anywhere}.reward-status{display:block;color:#d4b878;font-size:11px;margin-top:4px;text-transform:capitalize}.reward-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.reward-card-actions button{padding:7px 9px;font-size:11px}.danger-button{align-self:start}
 .qr-reward{text-align:center}.qr-reward canvas{max-width:100%;background:white;border-radius:14px;padding:10px;margin:8px auto}.qr-reward p{color:var(--muted);font-size:13px}.qr-reward input{font-size:11px}.reward-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-@media(max-width:520px){.modal{padding:8px}.dialog{max-height:96dvh;border-radius:16px;padding:14px}.admin-scroll{max-height:calc(96dvh - 122px)}.sticker-upload-preview{height:135px}.reward-library article{grid-template-columns:52px 1fr}.reward-library article>.danger-button{grid-column:2;justify-self:start}.admin-tabs button{font-size:10px}}
+@media(max-width:520px){.modal{padding:8px}.dialog{max-height:96dvh;border-radius:16px;padding:14px}.dialog:has(.admin-tabs){height:calc(100dvh - 16px);max-height:calc(100dvh - 16px);padding-bottom:0}.sticker-upload-preview{height:135px}.reward-library article{grid-template-columns:52px 1fr}.reward-library article>.danger-button{grid-column:2;justify-self:start}.admin-tabs button{font-size:10px}}
