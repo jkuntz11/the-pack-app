@@ -1,4 +1,4 @@
-const C='the-pack-v1-2-1-unlock-methods-20260716';
+const C='the-pack-v1-2-1-icons-v122-20260716';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.webmanifest','./assets/vendor/qrcode-generator.js','./assets/vendor/jsQR.js',
   './assets/heroes/home-hero.webp',
@@ -9,10 +9,10 @@ const CORE=[
   './assets/journal/journal-structure.json',
   './assets/icons/app-icon-192.png',
   './assets/icons/app-icon-512.png',
-  './assets/icons/apple-touch-icon.png',
-  './assets/icons/favicon-32.png',
-  './assets/icons/favicon-16.png',
-  './assets/icons/favicon.ico'
+  './assets/icons/apple-touch-icon.png?v=122',
+  './assets/icons/favicon-32.png?v=122',
+  './assets/icons/favicon-16.png?v=122',
+  './assets/icons/favicon.ico?v=122'
 ];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(C).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));
