@@ -18,6 +18,7 @@ create table if not exists public.stickers (
   name text not null,
   section text not null check (section in ('beer','events','food','challenges','special')),
   image_path text not null,
+  unlock_method text not null default 'staff_code' check (unlock_method in ('honor_check_in','qr_code','staff_code','automatic','hidden')),
   unlock_code text not null unique,
   enabled boolean not null default true,
   created_by uuid references auth.users(id),
