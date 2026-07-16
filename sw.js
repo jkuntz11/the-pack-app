@@ -1,4 +1,4 @@
-const C='the-pack-v1-2-1-dynamic-toc-20260716';
+const C='the-pack-v1-2-1-reward-engine-20260716';
 const CORE=[
   './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
   './assets/heroes/home-hero.webp',

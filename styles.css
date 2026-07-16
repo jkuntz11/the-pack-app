@@ -43,7 +43,7 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 .toc-row-hotspot:focus-visible{outline:3px solid #e4b65d;background:rgba(228,182,93,.12)}
 .blank-page-ui{display:flex;flex-direction:column;padding:8.5% 9% 7% 13%;color:#3a2414}
 .blank-page-title{display:flex;align-items:end;justify-content:space-between;border-bottom:2px solid rgba(78,46,24,.35);padding-bottom:1.2%;font-family:Georgia,serif;text-transform:uppercase;letter-spacing:.05em}.blank-page-title span{font-weight:900;font-size:clamp(18px,4.4vw,32px)}.blank-page-title strong{font-size:clamp(14px,3.2vw,24px)}
-.blank-sticker-slots{flex:1;display:grid;grid-template-rows:repeat(3,1fr);align-content:center;gap:5.5%;padding:6% 10% 9%;}.blank-sticker-slots div{width:94%;justify-self:center;min-height:0;border:2px dashed rgba(96,61,34,.32);border-radius:24px;background:rgba(255,255,255,.08)}
+.blank-sticker-slots{position:relative;flex:1;min-height:0;display:grid;grid-template-rows:repeat(3,minmax(0,1fr));align-content:center;gap:5.5%;padding:6% 10% 9%}
 .blank-page-footer{text-align:center;font-family:Georgia,serif;font-weight:700;font-size:clamp(12px,2.8vw,20px)}
 @media(max-width:700px){.journal-fullscreen .journal-stage.single img{max-height:calc(100dvh - 126px)}.blank-page-ui{padding:8.5% 8% 7% 13%}.toc-count{right:8%}}
 
@@ -89,11 +89,10 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 
 /* Journal sticker manager */
 .blank-sticker-slots{pointer-events:auto}
-.journal-sticker{position:relative;width:100%;height:100%;border:0;background:transparent;border-radius:24px;display:flex;align-items:center;justify-content:center;min-height:0;overflow:visible}
+.journal-sticker{position:relative;width:100%;height:100%;min-width:0;min-height:0;border:0;background:transparent;border-radius:24px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .journal-sticker.empty{border:2px dashed rgba(96,61,34,.32);background:rgba(255,255,255,.08);color:rgba(71,43,24,.58);flex-direction:column;gap:4px;font-weight:900}
 .journal-sticker.empty span{font-size:clamp(24px,6vw,48px);line-height:1}.journal-sticker.empty small{font-size:clamp(9px,2.3vw,15px);text-transform:uppercase;letter-spacing:.08em}
-.journal-sticker.placed img{display:block!important;width:auto!important;height:auto!important;max-width:92%!important;max-height:92%!important;object-fit:contain!important;filter:drop-shadow(0 5px 4px rgba(38,22,10,.3));transform:rotate(-1deg)}
-.journal-sticker.placed:nth-child(2) img{transform:rotate(1.2deg)}.journal-sticker.placed:nth-child(3) img{transform:rotate(-.6deg)}
+.journal-sticker.placed img{display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;padding:9%;box-sizing:border-box;object-fit:contain!important;filter:drop-shadow(0 5px 4px rgba(38,22,10,.3))}
 .sticker-picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.sticker-picker button{border:1px solid #45413b;background:#211d18;color:#fff;border-radius:14px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:7px}.sticker-picker img{width:100%;height:120px;object-fit:contain}.sticker-picker strong{font-size:13px}
 .placed-sticker-preview{width:100%;height:260px;object-fit:contain;background:#0d0b08;border-radius:14px;margin:10px 0}
 .admin-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 16px}.admin-tabs button{border:1px solid #45413b;background:#211d18;color:#b9b1a5;border-radius:10px;padding:10px;font-weight:800}.admin-tabs button.active{color:#181109;background:#e1bd74;border-color:#e1bd74}
@@ -153,16 +152,18 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 
 
 /* Reward Engine and mobile admin improvements */
-.dialog:has(.admin-tabs){overflow:hidden;display:flex;flex-direction:column;padding-bottom:0}
+.dialog:has(.admin-tabs){height:min(88dvh,760px);max-height:88dvh;overflow:hidden;display:flex;flex-direction:column;padding-bottom:0}
 .dialog:has(.admin-tabs) .dialog-head,.dialog:has(.admin-tabs) .admin-tabs{flex:0 0 auto}
-#adminPanel{min-height:0;overflow:hidden;display:flex;flex-direction:column}
-.admin-scroll{overflow-y:auto;overscroll-behavior:contain;padding:0 2px 90px;max-height:calc(88vh - 130px)}
-.admin-sticky-action{position:sticky;bottom:0;z-index:8;margin-top:14px;padding:14px;box-shadow:0 -10px 20px rgba(21,21,21,.95)}
+#adminPanel{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.admin-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 2px 22px}
+.admin-reward-layout{display:flex;flex:1;min-height:0;overflow:hidden;flex-direction:column}
+.admin-action-footer{flex:0 0 auto;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:10px;background:#151515;border-top:1px solid #5a4522;padding:12px 2px calc(12px + env(safe-area-inset-bottom))}
+.admin-action-footer button{min-height:44px}
 .sticker-upload-preview{height:160px}
 .admin-tabs{grid-template-columns:repeat(3,1fr)}
 .admin-tabs button{font-size:12px;padding:9px 5px}
 .admin-intro{background:linear-gradient(145deg,#241b10,#17130e);border:1px solid #594321;border-radius:14px;padding:13px;margin:4px 0 14px}.admin-intro h3{margin:8px 0 4px}.admin-intro p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
 .reward-method-note{min-height:0;color:#d9bd84;background:#241d13;border-radius:10px;padding:0;margin:8px 0}.reward-method-note:not(:empty){padding:10px}
-.reward-library article{grid-template-columns:62px 1fr auto}.reward-status{display:block;color:#d4b878;font-size:11px;margin-top:4px;text-transform:capitalize}.reward-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.reward-card-actions button{padding:7px 9px;font-size:11px}.danger-button{align-self:start}
+.reward-library article{grid-template-columns:62px 1fr auto}.reward-id{display:block;color:#8f8980;font-size:10px;margin-top:4px;overflow-wrap:anywhere}.reward-status{display:block;color:#d4b878;font-size:11px;margin-top:4px;text-transform:capitalize}.reward-card-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.reward-card-actions button{padding:7px 9px;font-size:11px}.danger-button{align-self:start}
 .qr-reward{text-align:center}.qr-reward canvas{max-width:100%;background:white;border-radius:14px;padding:10px;margin:8px auto}.qr-reward p{color:var(--muted);font-size:13px}.qr-reward input{font-size:11px}.reward-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-@media(max-width:520px){.modal{padding:8px}.dialog{max-height:96dvh;border-radius:16px;padding:14px}.admin-scroll{max-height:calc(96dvh - 122px)}.sticker-upload-preview{height:135px}.reward-library article{grid-template-columns:52px 1fr}.reward-library article>.danger-button{grid-column:2;justify-self:start}.admin-tabs button{font-size:10px}}
+@media(max-width:520px){.modal{padding:8px}.dialog{max-height:96dvh;border-radius:16px;padding:14px}.dialog:has(.admin-tabs){height:calc(100dvh - 16px);max-height:calc(100dvh - 16px);padding-bottom:0}.sticker-upload-preview{height:135px}.reward-library article{grid-template-columns:52px 1fr}.reward-library article>.danger-button{grid-column:2;justify-self:start}.admin-tabs button{font-size:10px}}
