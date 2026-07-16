@@ -18,7 +18,7 @@ create table if not exists public.stickers (
   name text not null,
   section text not null check (section in ('beer','events','food','challenges','special')),
   image_path text not null,
-  unlock_method text not null default 'staff_code' check (unlock_method in ('staff_code','qr_code')),
+  unlock_method text not null default 'staff_code' check (unlock_method in ('honor_check_in','qr_code','staff_code','automatic','hidden')),
   unlock_code text not null unique,
   enabled boolean not null default true,
   created_by uuid references auth.users(id),
@@ -29,19 +29,12 @@ create table if not exists public.stickers (
 alter table public.stickers
 add column if not exists unlock_method text not null default 'staff_code';
 
-do $$
-begin
-  if not exists (
-    select 1 from pg_constraint
-    where conname = 'stickers_unlock_method_check'
-      and conrelid = 'public.stickers'::regclass
-  ) then
-    alter table public.stickers
-    add constraint stickers_unlock_method_check
-    check (unlock_method in ('staff_code','qr_code'));
-  end if;
-end;
-$$;
+alter table public.stickers
+drop constraint if exists stickers_unlock_method_check;
+
+alter table public.stickers
+add constraint stickers_unlock_method_check
+check (unlock_method in ('honor_check_in','qr_code','staff_code','automatic','hidden'));
 
 create table if not exists public.user_stickers (
   user_id uuid not null references auth.users(id) on delete cascade,
