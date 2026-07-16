@@ -157,7 +157,7 @@ body.journal-mode nav{width:100%;max-width:1180px;grid-template-columns:repeat(5
 .dialog:has(.admin-tabs) .dialog-head,.dialog:has(.admin-tabs) .admin-tabs{flex:0 0 auto}
 #adminPanel{min-height:0;overflow:hidden;display:flex;flex-direction:column}
 .admin-scroll{overflow-y:auto;overscroll-behavior:contain;padding:0 2px 90px;max-height:calc(88vh - 130px)}
-.admin-sticky-action{position:sticky;bottom:0;z-index:8;margin-top:14px;padding:14px;box-shadow:0 -10px 20px rgba(21,21,21,.95)}
+.admin-sticky-action{position:static;margin-top:14px;padding:14px}
 .sticker-upload-preview{height:160px}
 .admin-tabs{grid-template-columns:repeat(3,1fr)}
 .admin-tabs button{font-size:12px;padding:9px 5px}
